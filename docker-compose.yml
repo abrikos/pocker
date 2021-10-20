@@ -1,0 +1,39 @@
+version: '3.2'
+services:
+
+  mongo:
+    image: "mongo"
+    container_name: react-ts-mongo
+    volumes:
+      - type: bind
+        source: /data
+        target: /data/db
+    ports:
+      - 27018:27017
+    environment:
+      - DB=reactts
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    container_name: react-ts-backend
+    environment:
+      MONGODB_URI: mongodb://localhost:27018/playground-web
+    ports:
+      - 3001:3001
+    links:
+      - mongo
+
+  application:
+    build: .
+    container_name: react-ts-frontend
+    environment:
+      - DB=mongo
+    ports:
+      - 8080:80
+    links:
+      - backend
+
+volumes:
+  server-data:
