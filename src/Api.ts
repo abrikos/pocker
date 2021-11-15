@@ -1,13 +1,13 @@
 import axios from "axios";
 
-export default {
-    get: async function (url: string, data: object) {
+const API = {
+    async get (url: string, data: object) {
         return this.fetch('/api' + url, data, 'GET')
     },
-    post: async function (url: string, data: object) {
+    async post (url: string, data: object) {
         return this.fetch('/api' + url, data, 'POST')
     },
-    fetch: async function (url: string, data: object, method: string) {
+    async fetch (url: string, data: object, method: string) {
         let res = {data:{}};
         try {
             if (method === 'POST') {
@@ -22,3 +22,5 @@ export default {
         return res.data;
     }
 }
+
+export default API;

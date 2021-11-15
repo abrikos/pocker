@@ -1,5 +1,5 @@
-import React, {SetStateAction, useEffect, useState} from 'react';
-import Api from "./Api";
+import React, {useEffect, useState} from 'react';
+import Api from "Api";
 
 interface IUser {
     name: string,
@@ -15,15 +15,18 @@ function App() {
         setList(value as [])
     }
 
+    const getUserList = () => {
+        Api.get('/model/user', {name: 'aaaa'})
+            .then(res=> {
+                console.log('ddddddddddddd', res)
+                getData(res)
+            })
+            .catch(err=>console.warn('ffffffff', err))
+    }
+
     useEffect(() => {
         getUserList();
     }, [])
-
-    function getUserList() {
-        Api.get('/model/user', {name: 'aaaa'})
-            .then(getData)
-            .catch(console.log)
-    }
 
     function addUser() {
         Api.post('/model/user', {name: new Date(), age: Math.random()})
@@ -33,7 +36,8 @@ function App() {
     return (
         <div className="App">
             <button onClick={addUser}>Add</button>
-            {list.map((u: IUser) => <div key={u.id}>{u.age} {u.name}</div>)}
+            {console.log('zzzzzz', list)}
+            {/*{list.map((u: IUser) => <div key={u.id}>{u.age} {u.name}</div>)}*/}
         </div>
     );
 }
