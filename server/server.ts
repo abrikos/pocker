@@ -29,6 +29,11 @@ for(const controller of Controllers){
     controller(app)
 }
 
+app.use(function(req, res, next) {
+    res.status(404).send('404 Not found');
+    res.status(500).send('500 Serverror');
+});
+
 // start the express server
 app.listen(port, () => {
     console.log(`server started at http://localhost:${port}`);

@@ -12,8 +12,9 @@ export default function ModelsController(app: any) {
     //app.settings.Models.user.find().then(console.log)
 
     function sendError(req: express.Request, res: express.Response, status:number, error:any){
-        console.log(req.path, error.message)
-        res.status(500).send(process.env.DEV ? error.message : 'Server error')
+        console.log(req.path, error.message);
+        const {message} = error;
+        res.status(500).send({message});
     }
 
     app.route('/api/model/:name')

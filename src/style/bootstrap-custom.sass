@@ -1,0 +1,59 @@
+@use 'sass:math'
+.flex
+  display: flex
+  $directions: center, left, right, space-between, space-around
+  &-justify
+    @each $dir in $directions
+      &-#{$dir}
+        justify-content: $dir
+  &-align-items
+    &-center
+      align-items: center
+  &-align-content
+    &-center
+      align-content: center
+
+$sizes: 25, 50, 100
+.width
+  @each $s in $sizes
+    &-#{$s}
+      width: percentage(math.div($s,100))
+
+@mixin indent($type, $direction:false)
+  $property: margin
+  @if $type == p
+    $property: padding
+
+  @for $i from 1 to 6
+    @if $direction
+      .#{$type}-#{$direction}-#{$i}
+        #{$property}-#{$direction}: #{$i * 10}px
+    @else
+      .#{$type}-#{$i}
+        #{$property}: #{$i * 10}px
+
+$directions: top, bottom, left, right
+@each $d in $directions
+  @include indent(p, $d)
+  @include indent(m, $d)
+@include indent(p)
+@include indent(m)
+
+@mixin indentAxis($type, $axis)
+  $property: margin
+  @if $type == p
+    $property: padding
+
+  @for $i from 1 to 6
+    .#{$type}#{$axis}-#{$i}
+      @if $axis == x
+        #{$property}-left: #{$i * 10}px
+        #{$property}-right: #{$i * 10}px
+      @else
+        #{$property}-top: #{$i * 10}px
+        #{$property}-bottom: #{$i * 10}px
+
+@include indentAxis(p, x)
+@include indentAxis(p, y)
+@include indentAxis(m, x)
+@include indentAxis(m, y)
