@@ -11,22 +11,20 @@ interface IUser {
 function App() {
     const [list, setList] = useState<[]>([]);
 
-    function getData(value: {}) {
-        setList(value as [])
+    function getData(value: []){
+        setList(value )
     }
 
-    const getUserList = () => {
-        Api.get('/model/user', {name: 'aaaa'})
-            .then(res=> {
-                console.log('ddddddddddddd', res)
-                getData(res)
+    useEffect(getUserList,[]);
+
+    function getUserList() {
+        Api.getModelList('user', {name: 'aaaa'})
+            .then((value:[])=> {
+                console.log(value)
+                getData(value)
             })
-            .catch(err=>console.warn('ffffffff', err))
+            .catch(err=>console.error(err))
     }
-
-    useEffect(() => {
-        getUserList();
-    }, [])
 
     function addUser() {
         Api.post('/model/user', {name: new Date(), age: Math.random()})
@@ -36,8 +34,7 @@ function App() {
     return (
         <div className="App">
             <button onClick={addUser}>Add</button>
-            {console.log('zzzzzz', list)}
-            {/*{list.map((u: IUser) => <div key={u.id}>{u.age} {u.name}</div>)}*/}
+            {list.map((u: IUser) => <div key={u.id}>{u.age} {u.name}</div>)}
         </div>
     );
 }
